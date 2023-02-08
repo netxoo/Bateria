@@ -1,0 +1,30 @@
+-Revisar actualización de plugin
+Haciendo clic en "Ajustes" y luego en "Actualizaciones". Aquí puedes configurar la frecuencia de 
+las actualizaciones y realizarlas manualmente si es necesario.
+
+-Validar configuración de 2FA
+La autenticación de dos factores puede ser habilitada en el panel de control de Nessus Manager. 
+Haz clic en "Ajustes" y luego en "Autenticación". Aquí encontrarás opciones para habilitar la 
+autenticación de dos factores.
+
+-Politica de contraseñas
+en el panel de control de Nessus Manager. Haz clic en "Ajustes" y luego en "Usuarios". Aquí encontrarás 
+opciones para establecer la longitud mínima de la contraseña, la complejidad y el tiempo de caducidad de las contraseñas.
+
+-Limitar el acceso a la interfaz web
+Utilizando la autenticación de usuario y la autorización de roles. Establece permisos específicos para 
+cada usuario y grupo para controlar qué acciones pueden realizar en la interfaz web.
+
+-Deshabilitar servicios innecesarios: 
+En la configuración de seguridad de Nessus Manager. Haz clic en "Ajustes" y luego en "Servicios". Aquí puedes deshabilitar 
+servicios que no sean necesarios para tus necesidades.
+
+-Realizar copias de seguridad regulares
+Puedes realizar copias de seguridad regulares de la configuración de Nessus Manager y de los datos almacenados 
+en él utilizando una herramienta de copia de seguridad externa. Haz clic en "Ajustes" y luego en "Copia de seguridad"
+
+-Configuración de cifrado
+Acceda a la sección de administración de Nessus Manager y seleccione "Configuración" y después "Red" y habilite el cifrado SSL/TLS
+
+-Configuración de alertas y notificaciones
+En la pestaña "Configuración" y "Alertas" y notificaciones 
