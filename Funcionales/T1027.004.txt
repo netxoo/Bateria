@@ -1,0 +1,18 @@
+################T1027.004.md################
+
+##Atomic Test #1 - Compile After Delivery using csc.exe
+
+#necesitamos los archivos en el directorio
+```cp T1027.004.exe C:\Windows\Temp\T1027.004.exe```
+```C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /out:C:\Windows\Temp\T1027.004.exe "calc.cs"```
+
+#Borrado
+```del C:\Windows\Temp\T1027.004.exe >nul 2>&1```
+```PAUSE```
+
+################T1027.md################
+
+##Atomic Test #4 - Execution from Compressed File
+
+```"T1027.exe"```
+```PAUSE```

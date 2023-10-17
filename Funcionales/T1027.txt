@@ -1,0 +1,14 @@
+################T1027.md################
+
+##Atomic Test #4 - Execution from Compressed File
+
+```"T1027.exe"```
+
+#Evidencia
+```tasklist /FI "IMAGENAME eq calc.exe"```
+```wmic process where "Name='calc.exe'" get Name, ProcessId, ExecutablePath /format:list```
+
+#Borrado
+
+```taskkill /f /im CalcApp.exe >nul 2>nul```
+```PAUSE```

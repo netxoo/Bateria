@@ -1,0 +1,27 @@
+################T1036.003.md################
+
+##Atomic Test #1 - Masquerading as Windows LSASS process
+
+```copy %SystemRoot%\System32\cmd.exe %SystemRoot%\Temp\lsass.exe```
+```start %SystemRoot%\Temp\lsass.exe```
+
+#Evidencia
+```tasklist /FI "IMAGENAME eq lsass.exe"```
+```wmic process where "Name='lsass.exe'" get Name, ProcessId, ExecutablePath /format:list```
+
+#Borrado
+```taskkill /F /FI "IMAGENAME eq lsass.exe" /FI "PID gt 1000"```
+```del /Q /F %SystemRoot%\Temp\lsass.exe >nul 2>&1```
+```PAUSE```
+
+##Atomic Test #3 - Masquerading - cscript.exe running as notepad.exe
+
+```copy %SystemRoot%\System32\cscript.exe %APPDATA%\notepad.exe /Y```
+```cmd.exe /c %APPDATA%\notepad.exe /B```
+
+#Evidencia
+```dir %APPDATA%```
+
+#Borrado
+```del /Q /F %APPDATA%\notepad.exe >nul 2>&1```
+```PAUSE```

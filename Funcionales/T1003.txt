@@ -1,0 +1,6 @@
+################T1003.md################
+
+##Atomic Test #1 - Gsecdump
+
+```gsecdump\gsecdump.exe -a```
+```PAUSE```

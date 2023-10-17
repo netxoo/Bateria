@@ -1,0 +1,12 @@
+################T1036.004.md################
+
+##Atomic Test #1 - Creating W32Time similar named service using schtasks
+
+```schtasks /create /ru system /sc daily /tr "cmd /c powershell.exe -ep bypass -file c:\T1036.004_NonExistingScript.ps1" /tn win32times /f```
+
+#Evidencia
+```schtasks /query /tn win32times /V /FO LIST```
+
+#Borrado
+```schtasks /tn win32times /delete /f```
+```PAUSE```

