@@ -1,0 +1,19 @@
+################T1036.003.md################
+
+##Atomic Test #1 - Masquerading as Windows LSASS process
+
+```copy %SystemRoot%\System32\cmd.exe %SystemRoot%\Temp\lsass.exe```
+```%SystemRoot%\Temp\lsass.exe /B```
+
+#Borrado
+```del /Q /F %SystemRoot%\Temp\lsass.exe >nul 2>&1```
+```PAUSE```
+
+##Atomic Test #3 - Masquerading - cscript.exe running as notepad.exe
+
+```copy %SystemRoot%\System32\cscript.exe %APPDATA%\notepad.exe /Y```
+```cmd.exe /c %APPDATA%\notepad.exe /B```
+
+#Borrado
+```del /Q /F %APPDATA%\notepad.exe >nul 2>&1```
+```PAUSE```

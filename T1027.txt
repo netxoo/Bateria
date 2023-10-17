@@ -1,0 +1,10 @@
+################T1027.md################
+
+##Atomic Test #4 - Execution from Compressed File
+
+```"T1027.exe"```
+
+#Borrado
+```taskkill /f /im calculator.exe >nul 2>nul```
+```taskkill /f /im CalculatorApp.exe >nul 2>nul```
+```PAUSE```
