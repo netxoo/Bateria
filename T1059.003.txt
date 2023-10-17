@@ -1,0 +1,19 @@
+################T1059.003.md################
+
+##Atomic Test #2 - Writes text to a file and displays it
+
+```echo "Hello from the Windows Command Prompt!" > "%TEMP%\test.bin" & type "%TEMP%\test.bin"```
+
+#Borrado
+```del "%TEMP%\test.bin" >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #4 - Simulate BlackByte Ransomware Print Bombing
+
+```cmd /c "for /l %x in (1,1,80) do start wordpad.exe /p T1059_003note.txt"```
+
+#Borrado
+```taskkill /F /IM wordpad.exe```
+
+```PAUSE```

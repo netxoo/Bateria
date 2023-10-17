@@ -1,0 +1,26 @@
+################T1053.005.md################
+
+##Atomic Test #1 - Scheduled Task Startup Script
+
+```schtasks /create /tn "T1053_005_OnLogon" /sc onlogon /tr "cmd.exe /c calc.exe"```
+```schtasks /create /tn "T1053_005_OnStartup" /sc onstart /ru system /tr "cmd.exe /c calc.exe"```
+
+#Evidencia
+```schtasks /query /TN "T1053_005_OnLogon" /V /FO LIST```
+```schtasks /query /TN "T1053_005_OnStartup" /V /FO LIST```
+
+#Borrado
+```schtasks /delete /tn "T1053_005_OnLogon" /f >nul 2>&1```
+```schtasks /delete /tn "T1053_005_OnStartup" /f >nul 2>&1```
+```PAUSE```
+
+##Atomic Test #2 - Scheduled task Local
+
+```SCHTASKS /Create /SC ONCE /TN spawn /TR C:\windows\system32\cmd.exe /ST 20:10```
+
+#Evidencia
+```schtasks /query /TN "spawn" /V /FO LIST```
+
+#Borrado
+```SCHTASKS /Delete /TN spawn /F >nul 2>&1```
+```PAUSE```
