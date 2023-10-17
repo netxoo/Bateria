@@ -1,19 +1,24 @@
 @echo off
 setlocal enabledelayedexpansion
 
-for %%f in (T1012.txt T1021.001.txt T1021.002.txt) do (
+md registros
+
+for %%f in (T1027.txt T1036.003.txt T1036.004.txt) do (
 
 	set "archivo=%%f"
-
+	
 	  for /f "tokens=*" %%a in ('type "!archivo!"') do (
 	    set "linea=%%a"
 	    set "linea=!linea:```=!"
 
 	    if "!linea!" == "%%a" (
-	        echo !linea!
+		echo !linea!
+	        echo !linea! >> registros\log_%%f
 	    ) else (
 		echo Ejecutando %DATE% %TIME%: !linea!
-	 	cmd /c !linea!
+		echo Ejecutando %DATE% %TIME%: !linea! >>  registros\log_%%f
+		cmd /c !linea! >>  registros\log_%%f
+		
     	   )
 
 	  )
