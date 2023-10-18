@@ -1,0 +1,5 @@
+################T1059.007.md################
+
+##Atomic Test #2 - JScript execution to gather local computer information via wscript
+
+```wscript sys_info.js```

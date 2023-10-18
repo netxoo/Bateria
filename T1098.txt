@@ -1,0 +1,5 @@
+################T1098.md################
+
+##Atomic Test #9 - Password Change on Directory Service Restore Mode (DSRM) Account
+
+```ntdsutil "set dsrm password" "sync from domain account %username%" "q" "q"```

@@ -1,0 +1,12 @@
+################T1070.md################
+
+##Atomic Test #1 - Indicator Removal using FSUtil
+
+```fsutil usn queryjournal C:```
+```fsutil usn deletejournal /D C:```
+
+#Evidencia 
+```fsutil usn queryjournal C:```
+
+#Borrado
+```fsutil usn createjournal m=1000 a=100 c:```

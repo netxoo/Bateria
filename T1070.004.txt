@@ -1,0 +1,12 @@
+################T1070.004.md################
+
+##Atomic Test #5 - Delete an entire folder - Windows cmd
+
+```mkdir %temp%\deleteme_T1551.004```
+```echo deleteme_T1551.004 >> %temp%\deleteme_T1551.004\deleteme_T1551.004```
+```dir %temp%\deleteme_T1551.004\```
+```rmdir /s /q %temp%\deleteme_T1551.004```
+
+#Evidencia
+```dir %temp%\deleteme_T1551.004\```
+```PAUSE```

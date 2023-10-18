@@ -1,0 +1,24 @@
+################T1105.md################
+
+##Atomic Test #7 - certutil download (urlcache)
+
+```cmd /c certutil -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt ART-license.txt```
+
+#Borrado
+```del ART-license.txt >nul 2>&1```
+
+##Atomic Test #9 - Windows - BITSAdmin BITS Download
+
+```C:\Windows\System32\bitsadmin.exe /transfer qcxjb7 /Priority HIGH https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt ART-license.txt```
+
+#Borrado
+```del ART-license.txt >nul 2>&1```
+
+##Atomic Test #11 - OSTAP Worming Activity
+
+```pushd \\localhost\C$```
+```echo var fileObject = WScript.createobject("Scripting.FileSystemObject");var newfile = fileObject.CreateTextFile("AtomicTestFileT1105.js", true);newfile.WriteLine("This is an atomic red team test file for T1105. It simulates how OSTap worms accross network shares and drives.");newfile.Close(); > AtomicTestT1105.js```
+```CScript.exe AtomicTestT1105.js //E:JScript```
+```del AtomicTestT1105.js /Q >nul 2>&1```
+```del AtomicTestFileT1105.js /Q >nul 2>&1```
+```popd```
