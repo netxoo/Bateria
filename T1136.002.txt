@@ -1,0 +1,18 @@
+################T1136.002.md################
+
+##Atomic Test #1 - Create a new Windows domain admin user
+
+```net user "T1136.002_Admin" "T1136_pass123!" /add /domain```
+```net group "Domain Admins" "T1136.002_Admin" /add /domain```
+
+#Borrado
+```net user "T1136.002_Admin" >nul 2>&1 /del /domain```
+
+##Atomic Test #2 - Create a new account similar to ANONYMOUS LOGON
+
+```net user "ANONYMOUS LOGON" "T1136_pass123!" /add /domain```
+
+#Borrado
+```net user "ANONYMOUS LOGON" >nul 2>&1 /del /domain```
+
+```PAUSE```

@@ -1,0 +1,16 @@
+################T1115.md################
+
+##Atomic Test #1 - Utilize Clipboard to store or execute commands from
+
+```dir | clip```
+```echo "T1115" > %temp%\T1115.txt```
+```clip < %temp%\T1115.txt```
+
+#Evidencia 
+```dir %temp%\T1115.txt```
+```type %temp%\T1115.txt```
+
+#Borrado
+```del %temp%\T1115.txt >nul 2>&1```
+
+```PAUSE```

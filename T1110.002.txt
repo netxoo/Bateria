@@ -1,0 +1,7 @@
+################T1110.002.md################
+
+##Atomic Test #1 - Password Cracking with Hashcat
+
+```hashcat.exe -a 0 -m 1000 -r .\rules\Incisive-leetspeak.rule sam.txt password.lst```
+
+```PAUSE```

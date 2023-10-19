@@ -1,0 +1,37 @@
+################T1119.md################
+
+##Atomic Test #1 - Automated Collection Command Prompt
+
+```mkdir %temp%\T1119_command_prompt_collection >nul 2>&1```
+```dir c: /b /s .docx | findstr /e .docx```
+```for /R c:\ %f in (*.docx) do copy /Y %f %temp%\T1119_command_prompt_collection```
+
+#Evidencia
+
+dir %temp%\T1119_command_prompt_collection```
+
+#Borrado
+```del %temp%\T1119_command_prompt_collection /F /Q >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #4 - Recon information for export with Command Prompt
+
+```sc query type=service > %TEMP%\T1119_1.txt```
+```doskey /history > %TEMP%\T1119_2.txt```
+```wmic process list > %TEMP%\T1119_3.txt```
+```tree C:\AtomicRedTeam\atomics > %TEMP%\T1119_4.txt```
+
+#Evidencia
+```type %TEMP%\T1119_1.txt```
+```type %TEMP%\T1119_2.txt```
+```type %TEMP%\T1119_3.txt```
+```type %TEMP%\T1119_4.txt```
+
+#Borrado
+```del %TEMP%\T1119_1.txt >nul 2>&1```
+```del %TEMP%\T1119_2.txt >nul 2>&1```
+```del %TEMP%\T1119_3.txt >nul 2>&1```
+```del %TEMP%\T1119_4.txt >nul 2>&1```
+
+```PAUSE```
