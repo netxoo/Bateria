@@ -1,0 +1,11 @@
+################T1216.md################
+
+##Atomic Test #2 - manage-bde.wsf Signed Script Command Execution
+
+```set comspec=%windir%\System32\calc.exe```
+```cscript %windir%\System32\manage-bde.wsf```
+
+#Borrado
+```set comspec=%windir%\System32\cmd.exe```
+
+```PAUSE```

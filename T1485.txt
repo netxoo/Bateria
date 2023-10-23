@@ -1,0 +1,7 @@
+################T1485.md################
+
+##Atomic Test #3 - Overwrite deleted data on C drive
+
+```cipher.exe /w:C:```
+
+```PAUSE```

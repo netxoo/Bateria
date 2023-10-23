@@ -1,0 +1,15 @@
+################T1195.md################
+
+##Atomic Test #1 - Octopus Scanner Malware Open Source Supply Chain
+
+#crear $env:TEMP\ExplorerSync.db
+
+```copy %temp%\ExplorerSync.db %temp%\..\Microsoft\ExplorerSync.db```
+```schtasks /create /tn ExplorerSync /tr "javaw -jar %temp%\..\Microsoft\ExplorerSync.db" /sc MINUTE /f```
+
+#Borrado
+```schtasks /delete /tn ExplorerSync /F 2>null```
+```del %temp%\..\Microsoft\ExplorerSync.db 2>null```
+```del %temp%\ExplorerSync.db 2>null```
+
+```PAUSE```

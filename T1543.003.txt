@@ -1,0 +1,12 @@
+################T1543.003.md################
+
+##Atomic Test #2 - Service Installation CMD
+
+```sc.exe create AtomicTestService_CMD binPath= "AtomicService.exe" start=auto  type=interact```
+```sc.exe start AtomicTestService_CMD```
+
+#Borrado
+```sc.exe stop AtomicTestService_CMD >nul 2>&1```
+```sc.exe delete AtomicTestService_CMD >nul 2>&1```
+
+```PAUSE```

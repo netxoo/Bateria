@@ -1,0 +1,14 @@
+################T1546.001.md################
+
+##Atomic Test #1 - Change Default File Association
+
+```assoc .hta```
+```assoc .hta=txtfile```
+
+#Evidencia
+```assoc .hta```
+
+#Borrado
+```assoc  .hta=htafile```
+
+```PAUSE```

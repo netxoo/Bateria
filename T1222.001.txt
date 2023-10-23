@@ -1,0 +1,19 @@
+################T1222.001.md################
+
+##Atomic Test #1 - Take ownership using takeown utility
+
+```mkdir %temp%\T1222.001_takeown_folder```
+```echo T1222.001_takeown1 >> %temp%\T1222.001_takeown_folder\T1222.001_takeown1.txt```
+```echo T1222.001_takeown2 >> %temp%\T1222.001_takeown_folder\T1222.001_takeown2.txt```
+```takeown.exe /f %temp%\T1222.001_takeown_folder /r```
+
+```PAUSE```
+
+##Atomic Test #2 - cacls - Grant permission to specified user or group recursively
+
+```mkdir %temp%\T1222.001_cacls```
+```echo T1222.001_cacls1 >> %temp%\T1222.001_cacls\T1222.001_cacls1.txt```
+```echo T1222.001_cacls2 >> %temp%\T1222.001_cacls\T1222.001_cacls2.txt```
+```icacls.exe %temp%\T1222.001_cacls /grant Everyone:F```
+
+```PAUSE```

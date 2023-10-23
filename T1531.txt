@@ -1,0 +1,23 @@
+################T1531.md################
+
+##Atomic Test #1 - Change User Password - Windows
+
+```net user AtomicAdministrator User2ChangePW! /add```
+```net.exe user AtomicAdministrator HuHuHUHoHo283283@dJD```
+
+#Evidencia
+```net user AtomicAdministrator```
+
+#Borrado
+```net.exe user AtomicAdministrator /delete >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #2 - Delete User - Windows
+
+#Evidencia
+```net user AtomicUser```
+```net user AtomicUser User2DeletePW! /add```
+```net.exe user AtomicUser /delete```
+
+```PAUSE```

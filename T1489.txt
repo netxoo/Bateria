@@ -1,0 +1,25 @@
+################T1489.md################
+
+##Atomic Test #1 - Windows - Stop service using Service Controller
+
+```sc.exe stop spooler```
+
+#Evidencia
+```sc query spooler```
+
+#Borrado
+```sc.exe start spooler >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #2 - Windows - Stop service using net.exe
+
+```net.exe stop spooler```
+
+#Evidencia
+```sc query spooler```
+
+#Borrado
+```net.exe start spooler >nul 2>&1```
+
+```PAUSE```

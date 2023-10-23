@@ -1,0 +1,25 @@
+################T1140.md################
+
+##Atomic Test #1 - Deobfuscate/Decode Files Or Information
+
+```certutil -encode C:\Windows\System32\calc.exe %temp%\T1140_calc.txt```
+```certutil -decode %temp%\T1140_calc.txt %temp%\T1140_calc_decoded.exe```
+
+#Borrado
+```del %temp%\T1140_calc.txt >nul 2>&1```
+```del %temp%\T1140_calc_decoded.exe >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #2 - Certutil Rename and Decode
+
+```copy %windir%\system32\certutil.exe %temp%\tcm.tmp```
+```%temp%\tcm.tmp -encode C:\Windows\System32\calc.exe %temp%\T1140_calc2.txt```
+```%temp%\tcm.tmp -decode %temp%\T1140_calc2.txt %temp%\T1140_calc2_decoded.exe```
+
+#Borrado
+```del %temp%\tcm.tmp >nul 2>&1```
+```del %temp%\T1140_calc2.txt >nul 2>&1```
+```del %temp%\T1140_calc2_decoded.exe >nul 2>&1```
+
+```PAUSE```

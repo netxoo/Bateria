@@ -1,0 +1,19 @@
+################T1529.md################
+
+##Atomic Test #1 - Shutdown System - Windows
+
+```shutdown /s /t 1```
+
+```PAUSE```
+
+##Atomic Test #2 - Restart System - Windows
+
+```shutdown /r /t 1```
+
+```PAUSE```
+
+##Atomic Test #10 - Logoff System - Windows
+
+```shutdown /l```
+
+```PAUSE```
