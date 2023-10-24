@@ -1,0 +1,7 @@
+################T1555.003.md################
+
+##Atomic Test #3 - LaZagne - Credentials from Browser
+
+```"LaZagne.exe" browsers```
+
+```PAUSE```

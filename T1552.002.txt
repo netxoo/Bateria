@@ -1,0 +1,14 @@
+################T1552.002.md################
+
+##Atomic Test #1 - Enumeration for Credentials in Registry
+
+```reg query HKLM /f password /t REG_SZ /s```
+```reg query HKCU /f password /t REG_SZ /s```
+
+```PAUSE```
+
+##Atomic Test #2 - Enumeration for PuTTY Credentials in Registry
+
+```reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s```
+
+```PAUSE```

@@ -1,0 +1,12 @@
+################T1546.011.md################
+
+##Atomic Test #1 - Application Shim Installation
+
+#debemos tener los archivos en en la carpeta
+```cp AtomicTest.dll c:\Tools\AtomicTest.dll```
+```sdbinst.exe "AtomicShimx86.sdb"```
+
+#Borrado
+```sdbinst.exe -u "AtomicShimx86.sdb" >nul 2>&1```
+
+```PAUSE```

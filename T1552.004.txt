@@ -1,0 +1,7 @@
+################T1552.004.md################
+
+##Atomic Test #1 - Private Keys
+
+```dir c:\ /b /s .key | findstr /e .key```
+
+```PAUSE```

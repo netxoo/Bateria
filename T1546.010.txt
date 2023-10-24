@@ -1,0 +1,12 @@
+################T1546.010.md################
+
+##Atomic Test #1 - Install AppInit Shim
+
+#debemos tener los reg en la carpeta
+```cp T1546.010.dll C:\Tools\T1546.010.dll```
+```cp T1546.010.dll C:\Tools\T1546.010x86.dll```
+```reg.exe import "T1546.010.reg"```
+
+#Borrado
+```reg.exe import "T1546.010-cleanup.reg" >nul 2>&1```
+```PAUSE```

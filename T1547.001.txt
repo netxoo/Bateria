@@ -1,0 +1,13 @@
+################T1547.001.md################
+
+##Atomic Test #8 - Add persistance via Recycle bin
+
+```reg ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open\command" /ve /d "calc.exe" /f```
+
+#Evidencia
+```reg query "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open\command```
+
+#Borrado
+```reg DELETE "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open" /f```
+
+```PAUSE```

