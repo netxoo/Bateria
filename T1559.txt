@@ -1,0 +1,19 @@
+################T1559.md################
+
+##Atomic Test #1 - Cobalt Strike Artifact Kit pipe
+
+```"namedpipes_executor.exe" --pipe 1```
+
+```PAUSE```
+
+##Atomic Test #2 - Cobalt Strike Lateral Movement (psexec_psh) pipe
+
+```"namedpipes_executor.exe" --pipe 2```
+
+```PAUSE```
+
+##Atomic Test #5 - Cobalt Strike post-exploitation pipe (before 4.2)
+
+```"namedpipes_executor.exe" --pipe 5```
+
+```PAUSE```

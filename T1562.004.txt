@@ -1,0 +1,21 @@
+################T1562.004.md################
+
+##Atomic Test #1 - Disable Microsoft Defender Firewall
+
+```netsh advfirewall set currentprofile state off```
+
+#Borrado
+```netsh advfirewall set currentprofile state on >nul 2>&1```
+
+```PAUSE```
+
+##Atomic Test #18 - LockBit Black - Unusual Windows firewall registry ```modification -cmd```
+
+```reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v EnableFirewall /t REG_DWORD /d 0 /f```
+```reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f```
+
+#Borrado
+```reg delete "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v EnableFirewall /f >nul 2>&1```
+```reg delete "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall /f >nul 2>&1```
+
+```PAUSE```

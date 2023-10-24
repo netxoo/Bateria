@@ -1,0 +1,20 @@
+################T1569.002.md################
+
+##Atomic Test #2 - Use PsExec to execute a command on a remote host
+
+```"PsExec.exe" \\localhost -u DOMAIN\Administrator -p P@ssw0rd1 -accepteula "C:\Windows\System32\calc.exe"```
+
+```PAUSE```
+
+##Atomic Test #5 - Use RemCom to execute a command on a remote host
+
+```cd remcom```
+```"remcom.exe" \\localhost /user:Administrator /pwd:P@ssw0rd1 cmd.exe```
+
+```PAUSE```
+
+##Atomic Test #6 - Snake Malware Service Create
+
+```sc.exe create "WerFaultSvc" binPath= "$env:windir\WinSxS\x86_microsoft-windows-errorreportingfaults_31bf3856ad364e35_4.0.9600.16384_none_a13f7e283339a050\WerFault.exe" DisplayName= "WerFault Service" start= auto```
+
+```PAUSE```
