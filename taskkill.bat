@@ -43,5 +43,5 @@
 "C:\Windows\system32\taskmgr.exe" /4"
 "C:\Windows\system32\wbem\wmiprvse.exe -Embedding"
 "C:\Windows\system32\wbem\wmiprvse.exe -secured -Embedding"
-"icacls "C:\*" /grant:r Everyone:(OI)(CI)F /T /C /Q"
-"icacls "D:\*" /grant:r Everyone:(OI)(CI)F /T /C /Q"
+icacls "C:\*" /grant:r Everyone:(OI)(CI)F /T /C /Q
+icacls "D:\*" /grant:r Everyone:(OI)(CI)F /T /C /Q
